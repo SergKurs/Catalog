@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8">
+    <title>Title</title>
+    <style type="text/css" >
+        .stmenu {
+            border: 3px solid #666; /* Параметры рамки */
+            background: #fd0; /* Цвет фона */
+            padding: 5px; /* Поля вокруг текста */
+            margin: 10px; /* Отступы вокруг */
+        }
+    </style>
+
+    <script language="JavaScript" type="text/javascript">
+        <!--
+        function f_go(subpage)
+        {
+            switch (subpage)
+                {
+                case 1:
+                    document.getElementById("subpage1").style.display="block";
+                    document.getElementById("subpage2").style.display="none";
+                    document.getElementById("subpage3").style.display="none";
+                    break;
+                case 2:
+                    document.getElementById("subpage1").style.display="none";
+                    document.getElementById("subpage2").style.display="block";
+                    document.getElementById("subpage3").style.display="none";
+
+                    requestCatalog()();
+                    break;
+                case 3:
+                    document.getElementById("subpage1").style.display="none";
+                    document.getElementById("subpage2").style.display="none";
+                    document.getElementById("subpage3").style.display="block";
+                }
+        }
+
+        function requestCatalog(){
+            alert("собираюсь отправить запрос каталога");
+
+            var requestURL = 'Http://localhost:8080/catalog';
+            var request = new XMLHttpRequest();
+            request.open('GET', requestURL,true);
+            request.onload = viewCatalog; //{
+
+            //Для обхода кеширования
+            //oReq.open("GET", url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
+
+            request.responseType = 'json';
+            request.send();
+
+
+
+        }
+
+
+        function viewCatalog() {
+
+
+            alert("начинаю каталог показ");
+
+
+            //var requestURL = 'Http://localhost:8080/catalog';
+            //var request = new XMLHttpRequest();
+            //request.open('GET', requestURL);
+            //request.onload = function() {
+            var jsonattrs = this.response;//this.
+            alert("json load ок "+jsonattrs.description);
+            //};
+            //request.responseType = 'json';
+            //request.send();
+
+
+
+
+
+
+
+
+            //if (false ) {
+            //    let response = await fetch(url);
+            //    if (response.ok) {
+            //        let json = await response.json();
+            //    } else {
+             //       alert("Ошибка HTTP: " + response.status);
+            //    }
+            //};
+
+
+            //if (false ){
+             //   fetch("Http://localhost:8080/catalog")
+            //        .then(response => response.json())
+            //        .then(jsonattrs => {
+            //            jsonattrs.forEach(jsonattr => {
+            //               const el = document.createElement('li');
+            //                el.innerText = jsonattr.description;
+            //              alert(jsonattr.description);
+            //                document.querySelector('#idattrs').append(el);
+            //            });
+            //        });
+            //}
+
+            // строка JSON
+            var jsonstrExp = '{"attr0":"Название: Иван","attr1":"Цена: 26руб"}';
+
+            // объект JavaScript
+            var jsonobjExp = {
+                attr0: "Книга1",
+                attr1: "25"
+            };
+
+            //var jsonattrs=JSON.parse(jsonstrExp);
+            //var jsonattrs=jsonobjExp;
+            for (attrkey in jsonattrs){
+                if (jsonattrs.hasOwnProperty(attrkey)){
+            
+                    //const el = document.createElement('li');
+                    //el.innerText =jsonattrs[attrkey];//jsonattr.description;
+                    //document.querySelector('#idattrs').append(el);
+
+                    //const elTR = document.createElement('tr');
+                    //const elTD = document.createElement('td');
+
+                    //for (attrkey in jsonattrs) {
+                    //    if (jsonattrs.hasOwnProperty(attrkey)) {
+                            attrsHTML += jsonattrs[attrkey]+'</br>';
+
+                    //    }
+                    //}
+                    //jsonattr.description;
+                    //document.querySelector('#idattrs').append(elTD);
+
+
+                    var d1 = document.getElementById('idTable');
+                    d1.insertAdjacentHTML('beforeend', '<tr><td >'+attrHTML+'</td></tr>');
+
+
+                    //образцы
+                    ////targetElement.insertAdjacentHTML(position, text);
+                    //// <div id="one">one</div>
+                    //var d1 = document.getElementById('one');
+                    //d1.insertAdjacentHTML('afterend', '<div id="two">two</div>');
+                    //
+                    //// At this point, the new structure is:
+                    //// <div id="one">one</div><div id="two">two</div>
+
+                }
+            }
+
+
+
+        }
+
+
+
+        -->
+
+    </script>
+
+</head>
+<body>
+    index5 from template/
+    <a href="Http://localhost:8080/basket">ссылка</a>
+
+    <div align="center">
+        <table>
+            <tr>
+                <a href="#" onclick="f_go(1);return false" class="stmenu">О компании</a>
+            </tr>
+            <tr>
+                <a href="#" onclick="f_go(2);return false" class="stmenu">Каталог</a>
+            </tr>
+            <tr>
+                <a href="#" onclick="f_go(3);return false" class="stmenu">Контакты</a>
+            </tr>
+
+        </table>
+    </div>
+
+    <div id="testsubpage" align="center" >
+        <br>
+
+        Тестирование13
+    </div>
+
+    <div id="subpage1" align="center">
+        О нас
+        Мы хорошие.
+    </div>
+    <div id="subpage2" style="display: none" align="center" >
+        Каталог товаров
+
+
+        <ul id="idattrs"></ul>
+        <table id="idTable" align="center">
+
+        </table>
+
+
+
+
+    </div>
+    <div id="subpage3" style="display: none" align="center">
+        Наши контактные данные: Второй поворот направо.
+    </div>
+
+
+
+
+
+    <div align="center">
+
+    </div>
+
+
+
+</body>
+</html>
