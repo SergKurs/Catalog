@@ -15,7 +15,7 @@ public class ServletBasket extends HttpServlet {
         //String par1 = req.getParameter("par1");
         resp.setContentType("text/html");
         PrintWriter printWriter = resp.getWriter();
-        printWriter.write("from basket");
+        printWriter.write("From 'basket' Здесь должна была быт Корзина покупок, но увы.");
         printWriter.close();
 
     }

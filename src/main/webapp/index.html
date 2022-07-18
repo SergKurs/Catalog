@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="HTML">
 <head>
     <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8">
     <title>Title</title>
@@ -28,8 +28,7 @@
                     document.getElementById("subpage1").style.display="none";
                     document.getElementById("subpage2").style.display="block";
                     document.getElementById("subpage3").style.display="none";
-
-                    requestCatalog()();
+                    requestCatalog();
                     break;
                 case 3:
                     document.getElementById("subpage1").style.display="none";
@@ -47,13 +46,10 @@
             request.onload = viewCatalog; //{
 
             //Для обхода кеширования
-            //oReq.open("GET", url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
+            //request.open("GET", url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
 
             request.responseType = 'json';
             request.send();
-
-
-
         }
 
 
@@ -62,36 +58,19 @@
 
             alert("начинаю каталог показ");
 
-
-            //var requestURL = 'Http://localhost:8080/catalog';
-            //var request = new XMLHttpRequest();
-            //request.open('GET', requestURL);
-            //request.onload = function() {
-            var jsonattrs = this.response;//this.
-            alert("json load ок "+jsonattrs.description);
-            //};
-            //request.responseType = 'json';
-            //request.send();
+            var jsonItems = this.response;
+            alert("json load ок "+jsonItems.description);
 
 
-
-
-
-
-
-
-            //if (false ) {
             //    let response = await fetch(url);
             //    if (response.ok) {
             //        let json = await response.json();
             //    } else {
-             //       alert("Ошибка HTTP: " + response.status);
+            //       alert("Ошибка HTTP: " + response.status);
             //    }
-            //};
 
 
-            //if (false ){
-             //   fetch("Http://localhost:8080/catalog")
+            //   fetch("Http://localhost:8080/catalog")
             //        .then(response => response.json())
             //        .then(jsonattrs => {
             //            jsonattrs.forEach(jsonattr => {
@@ -101,41 +80,48 @@
             //                document.querySelector('#idattrs').append(el);
             //            });
             //        });
-            //}
 
             // строка JSON
-            var jsonstrExp = '{"attr0":"Название: Иван","attr1":"Цена: 26руб"}';
+            //var jsonstrExp = '{"attr0":"Название: Иван","attr1":"Цена: 26руб"}';
 
             // объект JavaScript
-            var jsonobjExp = {
-                attr0: "Книга1",
-                attr1: "25"
-            };
+            //var jsonobjExp = {
+            //    attr0: "Книга1",
+            //    attr1: "25"
+            //};
 
-            //var jsonattrs=JSON.parse(jsonstrExp);
-            //var jsonattrs=jsonobjExp;
-            for (attrkey in jsonattrs){
-                if (jsonattrs.hasOwnProperty(attrkey)){
-            
+            //var jsonItems=JSON.parse(jsonstrExp);
+            //var jsonItems=jsonobjExp;
+            alert("jsonItems.toString():"+jsonItems.toString());
+            alert("jsonItems[0].toString():"+jsonItems[0].toString());
+            //alert("jsonItems[0]['itemId'].toString():"+jsonItems[0]['itemId']);
+
+            //for (itemkey in jsonItems){
+            jsonItems.forEach(function (jsonItem,indx){
+                //элемент каталога
+                alert("indx:"+indx+";jsonItem.toString():"+jsonItem.toString());
+                //alert(itemkey.toString():"+itemkey.toString());
+                //if (jsonItems.hasOwnProperty(itemkey)) {
+
                     //const el = document.createElement('li');
-                    //el.innerText =jsonattrs[attrkey];//jsonattr.description;
+                    //el.innerText =jsonattrs[itemkey];//jsonattr.description;
                     //document.querySelector('#idattrs').append(el);
 
                     //const elTR = document.createElement('tr');
                     //const elTD = document.createElement('td');
 
-                    //for (attrkey in jsonattrs) {
-                    //    if (jsonattrs.hasOwnProperty(attrkey)) {
-                            attrsHTML += jsonattrs[attrkey]+'</br>';
+                    //for (itemkey in jsonItems) {
+                    //    if (jsonItems.hasOwnProperty(itemkey)) {
+                    attrsHTML += jsonItems[attrkey] + '</br>';
 
                     //    }
                     //}
-                    //jsonattr.description;
+                    //jsonItems.description;
                     //document.querySelector('#idattrs').append(elTD);
 
 
                     var d1 = document.getElementById('idTable');
-                    d1.insertAdjacentHTML('beforeend', '<tr><td >'+attrHTML+'</td></tr>');
+                    d1.insertAdjacentHTML('beforeend', '<tr><td >' + attrHTML + '</td></tr>');
 
 
                     //образцы
@@ -146,10 +132,10 @@
                     //
                     //// At this point, the new structure is:
                     //// <div id="one">one</div><div id="two">two</div>
+                //}
 
-                }
             }
-
+            )
 
 
         }
@@ -164,17 +150,25 @@
 <body>
     index5 from template/
     <a href="Http://localhost:8080/basket">ссылка</a>
+    <a href="#" onclick="requestCatalog();" class="stmenu">Запасной</a>
+
+    <h3 id="demo" onclick="myFunction()">Click me to change my color.</h3>
+    <script language="JavaScript" type="text/javascript">
+        function myFunction() {
+            document.getElementById("demo").style.color = "red";
+        }
+    </script>
 
     <div align="center">
         <table>
             <tr>
-                <a href="#" onclick="f_go(1);return false" class="stmenu">О компании</a>
+                <a href="#" onclick="f_go(1);return false;" class="stmenu">О компании</a>
             </tr>
             <tr>
-                <a href="#" onclick="f_go(2);return false" class="stmenu">Каталог</a>
+                <a href="#" onclick="f_go(2);return false;" class="stmenu">Каталог</a>
             </tr>
             <tr>
-                <a href="#" onclick="f_go(3);return false" class="stmenu">Контакты</a>
+                <a href="#" onclick="f_go(3);return false;" class="stmenu">Контакты</a>
             </tr>
 
         </table>
@@ -183,7 +177,7 @@
     <div id="testsubpage" align="center" >
         <br>
 
-        Тестирование13
+        Тестирование14
     </div>
 
     <div id="subpage1" align="center">
