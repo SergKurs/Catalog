@@ -51,11 +51,16 @@ public class DBUtilityDDL {
             //
         } finally {
                 try {
-                    if(con != null) {
+                    if (con != null) {
                         con.close();
-                    };
+                    }
                 } catch (SQLException | NullPointerException ex) { ex.printStackTrace(); }
-                try { stmt.close(); } catch (SQLException | NullPointerException ex) { ex.printStackTrace(); }
+                try {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                } catch (SQLException | NullPointerException ex) { ex.printStackTrace(); }
+
                 //try { rs.close(); }catch (SQLException ex) { ex.printStackTrace(); }
         }
     }
