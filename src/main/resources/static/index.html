@@ -39,7 +39,7 @@
         }
 
         function requestCatalog(){
-            alert("собираюсь отправить запрос каталога");
+            //alert("собираюсь отправить запрос каталога");
 
             let requestURL = 'Http://localhost:8080/catalog';
             let request = new XMLHttpRequest();
@@ -57,10 +57,10 @@
         function viewCatalog() {
 
 
-            alert("начинаю показ каталог ");
+            //alert("начинаю показ каталог ");
 
             let items = this.response;
-            alert("ответ XMLHttpRequest.response  :"+items.description);
+            //alert("ответ XMLHttpRequest.response  :"+items.description);
 
 
 
@@ -171,16 +171,6 @@
 
 </head>
 <body>
-    index5 from template/
-    <a href="Http://localhost:8080/basket">ссылка</a>
-    <a href="#" onclick="requestCatalog();" class="stmenu">Запасной</a>
-
-    <h3 id="demo" onclick="myFunction()">Click me to change my color.</h3>
-    <script language="JavaScript" type="text/javascript">
-        function myFunction() {
-            document.getElementById("demo").style.color = "red";
-        }
-    </script>
 
     <div align="center">
         <table>
@@ -200,7 +190,6 @@
     <div id="testsubpage" align="center" >
         <br>
 
-        Тестирование14
     </div>
 
     <div id="subpage1" align="center">
@@ -221,7 +210,7 @@
 
     </div>
     <div id="subpage3" style="display: none" align="center">
-        Наши контактные данные: Второй поворот направо.
+        Наши контактные данные: Тридевятое царство. Второй поворот направо.
     </div>
 
 
@@ -238,6 +227,19 @@
 </html>
 <!--                      СВАЛКА ПРИМЕРОВ
 //--------------------------------------------------------------
+
+    <a href="#" onclick="requestCatalog();" class="stmenu">Запасной</a>
+
+    <h3 id="demo" onclick="myFunction()">Click me to change my color.</h3>
+    <script language="JavaScript" type="text/javascript">
+        function myFunction() {
+            document.getElementById("demo").style.color = "red";
+        }
+    </script>
+
+
+
+
 
            //    let response = await fetch(url);
             //    if (response.ok) {
