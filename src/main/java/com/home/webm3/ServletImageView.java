@@ -72,14 +72,15 @@ public class ServletImageView extends HttpServlet {
         //List fileItems = upload.parseRequest(request);
         //конструктор ServletRequestContext​(HttpServletRequest request)
 
-
+        System.out.println("doPost Image начало");
 
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         ServletRequestContext requestContext;
         requestContext = new org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext(req);
         //                                                          ServletRequestContext​​(req);
-        List<FileItem> listFiles=null;
+        List<FileItem> listFiles;
+
 
         String paramItemId = req.getParameter("itemId");
         int itemId=0;
@@ -90,7 +91,7 @@ public class ServletImageView extends HttpServlet {
                 nfe.printStackTrace();
                 resp.setContentType("application/json; charset=utf-8");
                 resp.getWriter().write("{\"result\": \" Индекс элемента направильный или отсутствует. \"} ");
-                System.out.println(" Индекс элемента направильный или отсутствует.");
+                System.out.println("doPost Image Индекс элемента направильный или отсутствует.");
                 return;
 
             }
@@ -99,14 +100,15 @@ public class ServletImageView extends HttpServlet {
 
         try {
             listFiles=upload.parseRequest(requestContext);
+            System.out.println("doPost Image listFiles.size="+listFiles.size());
         } catch (FileUploadException ex) {
             ex.printStackTrace();
             resp.setContentType("application/json; charset=utf-8");
-            resp.getWriter().write("{\"result\": \" Не удалось записать на диск \"} ");
-            System.out.println(" Не удалось записать на диск");
+            resp.getWriter().write("{\"result\": \" Не удалось загрузить файл \"} ");
+            System.out.println("doPost Image Не удалось загрузить файл");
             return;
         }
-        FileItem fileItem=listFiles.get(0);
+        FileItem fileItem=listFiles.get(listFiles.size()-1);
         DataImage image=new DataImage();
         image.setImageName(fileItem.getName());
         image.setSize((int)fileItem.getSize());
@@ -117,6 +119,7 @@ public class ServletImageView extends HttpServlet {
         image.setPath("" + image.getMd5());
 
         // Cохраняем в базе данных
+        System.out.println("doPost Image перед сохр в БД image.toString="+image.toString());
         ImageDAO.insert(image,itemId);
 
         File file = new File(image.getPath());
@@ -129,6 +132,7 @@ public class ServletImageView extends HttpServlet {
             System.out.println(" Не удалось записать на диск");
             return;
         }
+        System.out.println("doPost Image сейчас будет переадресация на index.html");
         resp.sendRedirect("index.html");
     }
 

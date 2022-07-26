@@ -3,10 +3,11 @@
 <html lang="HTML">
 <head>
     <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8">
-    <title>Title</title>
+    <title>Каталог книг</title>
     <style type="text/css" >
         .stmenu {
             border: 3px solid #666; /* Параметры рамки */
+            border-radius: 5px;
             background: #fd0; /* Цвет фона */
             padding: 5px; /* Поля вокруг текста */
             margin: 10px; /* Отступы вокруг */
@@ -24,24 +25,43 @@
                     document.getElementById("subpage1").style.display="block";
                     document.getElementById("subpage2").style.display="none";
                     document.getElementById("subpage3").style.display="none";
+                    document.getElementById("subpage4").style.display="none";
                     break;
                 case 2:
                     document.getElementById("subpage1").style.display="none";
                     document.getElementById("subpage2").style.display="block";
                     document.getElementById("subpage3").style.display="none";
-                    requestCatalog();
+                    document.getElementById("subpage4").style.display="none";
+                    requestCatalog("","");
                     break;
                 case 3:
                     document.getElementById("subpage1").style.display="none";
                     document.getElementById("subpage2").style.display="none";
                     document.getElementById("subpage3").style.display="block";
+                    document.getElementById("subpage4").style.display="none";
+                    break;
+                case 4:
+                    document.getElementById("subpage1").style.display="none";
+                    document.getElementById("subpage2").style.display="none";
+                    document.getElementById("subpage3").style.display="none";
+                    document.getElementById("subpage4").style.display="block";
                 }
         }
 
-        function requestCatalog(){
+        function fpage_go(sidePage, idItem)
+        {
+                    requestCatalog(sidePage, idItem);
+        }
+
+
+
+
+
+        function requestCatalog(sidePage, idItem){
             //alert("собираюсь отправить запрос каталога");
 
-            let requestURL = 'Http://localhost:8080/catalog';
+            //let requestURL = 'Http://localhost:8080/catalog';
+            let requestURL = URLserver+'/catalog'+'?sidePage='+sidePage+'&itemId='+idItem;
             let request = new XMLHttpRequest();
             request.open('GET', requestURL,true);
             request.onload = viewCatalog; //{
@@ -67,15 +87,48 @@
             //html-opening всех элементов каталога
             let HTMLitems, HTMLitem, HTMLimages, HTMLimage;
             let images;
+            let eltr,eltd;
+            if (document.getElementById('iditemall')) {
+                document.getElementById('iditemall').remove();
+            }
             HTMLitems = document.createElement('div');
             HTMLitems.id = "iditemall";
+            let elt = document.createElement('table');
+            elt.id = "idtableitem";
+
+            let d1 = document.getElementById('idTable');
+            d1.insertAdjacentElement('beforeend', HTMLitems);
+
+
+            //HTMLitems
+            document.getElementById("iditemall")
+                     .insertAdjacentElement('beforeend', elt);
+            //alert("6 ");
 
             items.forEach(function (item,indexItem) {
                 //элемент каталога
                 //alert("_index_:" + indexItem + "; _item.toString()_:" + item.toString());
                 //обрабатываем элемент каталога
 
+                if (indexItem%3===0) {
+                    eltr = document.createElement('tr');
+                    //alert("7 "+'triditem'+(Math.floor(indexItem/3)));
+                    eltr.id = 'triditem'+(Math.floor(indexItem/3));
+                    //alert("7.2 "+eltr.id);
+                    //if (document.getElementById("idtableitem")){alert("7.3")}
+                    //HTMLitems
+                    document.getElementById("idtableitem")
+                             .insertAdjacentElement('beforeend',eltr);
+                }
+                //alert("8 ");
+                eltd = document.createElement('td');
+                eltd.id = "tdiditem"+indexItem;
+                //HTMLitems
+                document.getElementById("triditem"+(Math.floor(indexItem/3)))
+                        .insertAdjacentElement('beforeend', eltd);
+
                 //html-opening элемента каталога
+
                 HTMLitem = document.createElement('div');
                 HTMLitem.id = "iditem"+indexItem;
 
@@ -111,6 +164,8 @@
                     let elim = document.createElement('img');
                     elim.id = "idimageId"+imageId;
                     elim.src = URLserver+"/image?id="+imageId;
+                    elim.style.width = "100px";
+                    elim.style.height = "100px";
                     elim.alt = "Not picture";
 
                     HTMLimage.append(elim);
@@ -152,13 +207,15 @@
                 if (item['attrInt4']!==null) {elattr.append("Аттрибут4:"+item['attrInt4'])}
 
                 HTMLitem.append(elattr);
-                HTMLitems.append(HTMLitem);
+                //HTMLitems.append(HTMLitem);
+                //HTMLitems
+                document.getElementById("tdiditem"+indexItem).append(HTMLitem);
 
             });
             //html-ending всех элементов каталога
 
-            let d1 = document.getElementById('idTable');
-            d1.insertAdjacentElement('beforeend', HTMLitems);
+            //let d1 = document.getElementById('idTable');
+            //d1.insertAdjacentElement('beforeend', HTMLitems);
 
 
         } //end function viewCatalog
@@ -172,7 +229,7 @@
 </head>
 <body>
 
-    <div align="center">
+    <div align="center" style=" padding-top: 30px">
         <table>
             <tr>
                 <a href="#" onclick="f_go(1);return false;" class="stmenu">О компании</a>
@@ -200,9 +257,23 @@
         Каталог товаров
 
 
-        <ul id="idattrs"></ul>
         <table id="idTable" align="center">
 
+
+        </table>
+
+        <table align="center" style="margin-top: 20px">
+            <td>
+                <tr align="left">
+                    <a href="#" onclick="fpage_go('before','0');return false;" class="stmenu"><<</a>
+                </tr>
+                <tr align="center">
+                    <a href="#" onclick="f_go(4);return false;" class="stmenu">Добавить в каталог</a>
+                </tr>
+                <tr align="right">
+                    <a href="#" onclick="fpage_go('after','0');return false;" class="stmenu">>></a>
+                </tr>
+            </td>
         </table>
 
 
@@ -213,6 +284,19 @@
         Наши контактные данные: Тридевятое царство. Второй поворот направо.
     </div>
 
+    <div id="subpage4" style="display: none" align="center">
+        Форма для добавления в каталог
+        <form ENCTYPE="multipart/form-data" name="form1" method="post"
+              action='/catalog'>
+            АттрибутСтр0 <input type="text" name="attr0" /><br />
+            АттрибутЧисло0 <input type="text" name="attrInt0" /><br />
+            Прикрепить файл: <input type="file" name="file1" /><br />
+            <input name="" type="submit" value="Отправить" />
+        </form>
+
+
+
+    </div>
 
 
 
