@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="HTML">
+<html lang="ru">
 <head>
     <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8">
     <title>Каталог книг</title>
@@ -16,13 +16,13 @@
     <div align="center" style="margin-top: 30px">
         <table>
             <tr>
-                <a href="#" onclick="f_go(1);return false;" class="stmenu">О компании</a>
+                <a href="#" onclick="f_gopage(1);return false;" class="stmenu">О компании</a>
             </tr>
             <tr>
-                <a href="#" onclick="f_go(2);return false;" class="stmenu">Каталог</a>
+                <a href="#" onclick="f_gopage(2);return false;" class="stmenu">Каталог</a>
             </tr>
             <tr>
-                <a href="#" onclick="f_go(3);return false;" class="stmenu">Контакты</a>
+                <a href="#" onclick="f_gopage(3);return false;" class="stmenu">Контакты</a>
             </tr>
 
         </table>
@@ -37,52 +37,65 @@
         Мы хорошие.
     </div>
 
-    <div id="subpage2" style="display: none" align="center" >
+    <div id="subpage2" align="center" >
         Каталог товаров
         <table id="idTable" align="center">
         </table>
-        <table align="center" style="margin-top: 40px">
+        <table align="center" style="margin-top: 80px">
             <td>
                 <tr align="left">
-                    <a href="#" onclick="fpage_go('before','0');return false;" class="stmenu"><<</a>
+                    <a href="#" onclick="f_subpage_items('before',0);return false;" class="stmenu"><<</a>
                 </tr>
                 <tr align="center">
-                    <a href="#" onclick="f_go(4);return false;" class="stmenu">Добавить в каталог</a>
+                    <a href="#" onclick="f_gopage(5);return false;" class="stmenu">Добавить в каталог</a>
                 </tr>
                 <tr align="right">
-                    <a href="#" onclick="fpage_go('after','0');return false;" class="stmenu">>></a>
+                    <a href="#" onclick="f_subpage_items('after',0);return false;" class="stmenu">>></a>
                 </tr>
             </td>
         </table>
     </div>
 
-    <div id="subpage3" style="display: none" align="center">
+    <div id="subpage3" align="center">
         Наши контактные данные: Тридевятое царство. Второй поворот направо.
     </div>
 
-    <div id="subpage4" style="display: none" align="center">
+    <div id="subpage4" align="center">
+        Сведение о элементе каталога
+        <table id="idTable20" align="center">
+        </table>
+
+    </div>
+
+    <div id="subpage5" align="center">
         Форма для добавления в каталог
-        <form ENCTYPE="multipart/form-data" name="form1" method="post"
+        <form ENCTYPE="multipart/form-data" name="formAddItem" method="post"
               action='/catalog'>
-            АтрибутСтр0 <input type="text" name="attr0" /><br />
-            АтрибутСтр1 <input type="text" name="attr1" /><br />
-            АтрибутСтр2 <input type="text" name="attr2" /><br />
-            АтрибутСтр3 <input type="text" name="attr3" /><br />
-            АтрибутСтр4 <input type="text" name="attr4" /><br />
-            АтрибутЧисло0 <input type="text" name="attrInt0" /><br />
-            АтрибутЧисло1 <input type="text" name="attrInt1" /><br />
-            АтрибутЧисло2 <input type="text" name="attrInt2" /><br />
-            АтрибутЧисло3 <input type="text" name="attrInt3" /><br />
-            АтрибутЧисло4 <input type="text" name="attrInt4" /><br />
-            Прикрепить файл: <input type="file" name="file1" /><br />
+            АтрибутСтр0 <input type="text" name="attr0" /> <br />
+            АтрибутСтр1 <input type="text" name="attr1" /> <br />
+            АтрибутСтр2 <input type="text" name="attr2" /> <br />
+            АтрибутСтр3 <input type="text" name="attr3" /> <br />
+            АтрибутСтр4 <input type="text" name="attr4" /> <br />
+            АтрибутЧисло0 <input type="text" name="attrInt0" /> <br />
+            АтрибутЧисло1 <input type="text" name="attrInt1" /> <br />
+            АтрибутЧисло2 <input type="text" name="attrInt2" /> <br />
+            АтрибутЧисло3 <input type="text" name="attrInt3" /> <br />
+            АтрибутЧисло4 <input type="text" name="attrInt4" /> <br />
+            Прикрепить файл: <input type="file" name="file1" /> <br />
             <input name="" type="submit" value="Отправить" />
         </form>
+        <script type="application/javascript">
+            alert("formAddItem="+formAddItem.innerHTML);
+
+        </script>
+
+
     </div>
 
-    <div id="subpage5" style="display: none" align="center">
-        Сведение о элементе каталога
-
+    <div id="subpage6" align="center">
+<!--        подстраница редактирования элемента каталога-->
     </div>
+
 
 
 

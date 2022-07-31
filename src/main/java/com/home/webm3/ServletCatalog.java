@@ -180,8 +180,6 @@ public class ServletCatalog extends HttpServlet {
             item.setAttr0(map.get("attr0"));
         } catch (Exception ignored) {
         }
-
-
         if ((map.get("attr1") != null) && (!map.get("attr1").equals(""))) try {
             item.setAttr1(map.get("attr1"));
         } catch (Exception ignored) {

@@ -5,3 +5,27 @@
     padding: 5px; /* Поля вокруг текста */
     margin: 10px; /* Отступы вокруг */
 }
+
+#subpage1 {
+    display: block;
+}
+
+#subpage2 {
+    display: none;
+}
+
+#subpage3 {
+    display: none;
+}
+
+#subpage4 {
+    display: none;
+}
+
+#subpage5 {
+    display: none;
+}
+
+#subpage6 {
+    display: none;
+}
