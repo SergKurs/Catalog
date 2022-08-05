@@ -1,5 +1,6 @@
 package com.home.webm3;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -143,6 +144,12 @@ public class ItemDAO {
                         pstmt = con.prepareStatement(sqlQueryImage);
                         pstmt.setInt(1, image.getImageId());
                         resint = pstmt.executeUpdate();
+                        try {
+                            File file = new File(image.getPath());
+                            if (file.delete()) {
+                                System.out.println(" Удаление файла изображения прошло успешно");
+                            }
+                        } catch (Exception e){};
                         System.out.println("    Количесто удаленных строк изображений:" + resint);
                     }
                 }
@@ -163,6 +170,7 @@ public class ItemDAO {
 
     }
     public static void update(int itemId,DataCatalogItem item){
+        //не реализовано. Заменяется на удаление и добавление
 
     }
 }

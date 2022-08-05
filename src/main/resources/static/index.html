@@ -16,13 +16,13 @@
     <div align="center" style="margin-top: 30px">
         <table>
             <tr>
-                <a href="#" onclick="f_gopage(1);return false;" class="stmenu">О компании</a>
+                <a href="#" onclick="f_pageChange(1);return false;" class="stmenu">О компании</a>
             </tr>
             <tr>
-                <a href="#" onclick="f_gopage(2);return false;" class="stmenu">Каталог</a>
+                <a href="#" onclick="f_goPage_Catalog('before',0);return false;" class="stmenu">Каталог</a>
             </tr>
             <tr>
-                <a href="#" onclick="f_gopage(3);return false;" class="stmenu">Контакты</a>
+                <a href="#" onclick="f_pageChange(3);return false;" class="stmenu">Контакты</a>
             </tr>
 
         </table>
@@ -33,24 +33,24 @@
     </div>
 
     <div id="subpage1" align="center">
-        О нас
+        О нас:
         Мы хорошие.
     </div>
 
     <div id="subpage2" align="center" >
         Каталог товаров
-        <table id="idTable" align="center">
+        <table id="idTableItems" align="center">
         </table>
         <table align="center" style="margin-top: 80px">
             <td>
                 <tr align="left">
-                    <a href="#" onclick="f_subpage_items('before',0);return false;" class="stmenu"><<</a>
+                    <a href="#" onclick="f_goPage_Catalog('after',0);return false;" class="stmenu"><<</a>
                 </tr>
                 <tr align="center">
-                    <a href="#" onclick="f_gopage(5);return false;" class="stmenu">Добавить в каталог</a>
+                    <a href="#" onclick="f_pageChange(5);return false;" class="stmenu">Добавить в каталог</a>
                 </tr>
                 <tr align="right">
-                    <a href="#" onclick="f_subpage_items('after',0);return false;" class="stmenu">>></a>
+                    <a href="#" onclick="f_goPage_Catalog('after',0);return false;" class="stmenu">>></a>
                 </tr>
             </td>
         </table>
@@ -62,7 +62,7 @@
 
     <div id="subpage4" align="center">
         Сведение о элементе каталога
-        <table id="idTable20" align="center">
+        <table id="idActivTableItem" align="center">
         </table>
 
     </div>
@@ -85,7 +85,7 @@
             <input name="" type="submit" value="Отправить" />
         </form>
         <script type="application/javascript">
-            alert("formAddItem="+formAddItem.innerHTML);
+            //alert("formAddItem="+formAddItem.innerHTML);
 
         </script>
 
@@ -93,7 +93,9 @@
     </div>
 
     <div id="subpage6" align="center">
-<!--        подстраница редактирования элемента каталога-->
+        <!--        подстраница редактирования элемента каталога-->
+        <!--        реализация отсутствует-->
+
     </div>
 
 
@@ -108,106 +110,3 @@
 
 </body>
 </html>
-<!--                      СВАЛКА ПРИМЕРОВ
-//--------------------------------------------------------------
-
-    <a href="#" onclick="requestCatalog();" class="stmenu">Запасной</a>
-
-    <h3 id="demo" onclick="myFunction()">Click me to change my color.</h3>
-    <script language="JavaScript" type="text/javascript">
-        function myFunction() {
-            document.getElementById("demo").style.color = "red";
-        }
-    </script>
-
-
-
-
-
-           //    let response = await fetch(url);
-            //    if (response.ok) {
-            //        let json = await response.json();
-            //    } else {
-            //       alert("Ошибка HTTP: " + response.status);
-            //    }
-
-
-            //   fetch("Http://localhost:8080/catalog")
-            //        .then(response => response.json())
-            //        .then(jsonattrs => {
-            //            jsonattrs.forEach(jsonattr => {
-            //               const el = document.createElement('li');
-            //                el.innerText = jsonattr.description;
-            //              alert(jsonattr.description);
-            //                document.querySelector('#idattrs').append(el);
-            //            });
-            //        });
-
-            // строка JSON
-            //var jsonstrExp = '{"attr0":"Название: Иван","attr1":"Цена: 26руб"}';
-
-            // объект JavaScript
-            //var jsonobjExp = {
-            //    attr0: "Книга1",
-            //    attr1: "25"
-            //};
-
-            //var items=JSON.parse(jsonstrExp);
-            //var items=jsonobjExp;
-
-
-
-
-
-
-//var d1 = document.getElementById('idTable');
-//d1.insertAdjacentHTML('beforeend', '<tr><td >' + HTMLitems + '</td></tr>');
-
-                //attrsHTML += jsonItems[attrkey] + '</br>';
-
-
-//образцы
-//const el = document.createElement('li');
-//el.innerText =jsonattrs[itemkey];//jsonattr.description;
-//document.querySelector('#idattrs').append(el);
-
-
-//    }
-//}
-//jsonItems.description;
-//document.querySelector('#idattrs').append(elTD);
-
-//const elTR = document.createElement('tr');
-//const elTD = document.createElement('td');
-
-//for (itemkey in jsonItems) {
-//    if (jsonItems.hasOwnProperty(itemkey)) {
-
-
-////targetElement.insertAdjacentHTML(position, text);
-// <div id="one">one</div>
-//var d1 = document.getElementById('one');
-//d1.insertAdjacentHTML('afterend', '<div id="two">two</div>');
-//
-//// At this point, the new structure is:
-//// <div id="one">one</div><div id="two">two</div>
-//}
-Вот методы для различных вариантов вставки:
-
-node.append(...nodes or strings) – добавляет узлы или строки в конец node,
-node.prepend(...nodes or strings) – вставляет узлы или строки в начало node,
-node.before(...nodes or strings) –- вставляет узлы или строки до node,
-node.after(...nodes or strings) –- вставляет узлы или строки после node,
-node.replaceWith(...nodes or strings) –- заменяет node заданными узлами или строками.
-
-Если нужно вставить фрагмент HTML, то elem.insertAdjacentHTML(where, html) вставляет в зависимости от where:
-
-"beforebegin" – вставляет html прямо перед elem,
-"afterbegin" – вставляет html в elem в начало,
-"beforeend" – вставляет html в elem в конец,
-"afterend" – вставляет html сразу после elem.
-Также существуют похожие методы elem.insertAdjacentText и elem.insertAdjacentElement, они вставляют текстовые строки и элементы, но они редко используются.
-
-
-
--->

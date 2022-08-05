@@ -37,9 +37,11 @@ public class ServletCatalog extends HttpServlet {
         //printWriter.write("from catalog");
         //printWriter.close();
         //new testJSON().netod1();
+        System.out.println("0");
 
         String paramSidePage = req.getParameter("sidePage");
         String paramItemId = req.getParameter("itemId");
+        String paramId = req.getParameter("id");
         String paramItemCount = req.getParameter("itemCount");
         int iparamItemId = 0;
         if ((paramItemId != null) && (!paramItemId.equals(""))) {
@@ -49,22 +51,37 @@ public class ServletCatalog extends HttpServlet {
                 nfe.printStackTrace();
             }
         }
+        int iparamId = -1;
+        if ((paramId != null) && (!paramId.equals(""))) {
+            try {
+                iparamId = Integer.parseInt(paramId);
+            } catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
+            }
+        }
 
 
         resp.setContentType("application/json; charset=utf-8");
 
-        List<DataCatalogItem> listItem = ItemDAO.selectAll();
+        //запрашиваем данные из БД
+        System.out.println("1");
+        List<DataCatalogItem> listItem;
+        if (iparamId==-1) {
+            //если нужно множество элементов, а не конкретный элемент
+            listItem=ItemDAO.selectAll();
+            System.out.println("2");
+        } else {
+            //если нам нужен один конкретный элемент каталога
+            listItem = new ArrayList<>();
+            listItem.add(ItemDAO.select(iparamId));
+            System.out.println("3");
+        }
         if (listItem == null) {
             resp.getWriter().write("[]");
+            System.out.println("4");
             return;
         }
-        //Демо режим
-        //attrs = new ArrayList<>();
-        //attrs.add(new DataCatalogItem("ПервоеЗачениеКн2", "ВтороеЗачениеКн2", "ТретьеЗачениеКн2", "ЧетвЗначКн2", "ПяЗначКн2",0,1,2,3,4));
-        //attrs.add(new DataCatalogItem("ПервоеЗачениеКн2", "ВтороеЗачениеКн2", "ТретьеЗачениеКн2", "ЧетвЗначКн2", "ПяЗначКн2",0,1,2,3,4));
-        //attrs.add(new DataCatalogItem("ПервоеЗачениеКн3", "ВтороеЗачениеКн3", "ТретьеЗачениеКн3", "ЧетвЗначКн3", "ПяЗначКн3",0,1,2,3,4));
-        //attrs.add(new DataCatalogItem("ПервоеЗачениеКн4", "ВтороеЗачениеКн4", "ТретьеЗачениеКн4", "ЧетвЗначКн4", "ПяЗначКн4",0,1,2,3,4));
-        //attrs.add(new DataCatalogItem("ПервоеЗачениеКн5", "ВтороеЗачениеКн5", "ТретьеЗачениеКн5", "ЧетвЗначКн5", "ПяЗначКн5",0,1,2,3,4));
+        System.out.println("5");
 
         //по умолчаниею
         int countIdList = 9;
@@ -115,7 +132,7 @@ public class ServletCatalog extends HttpServlet {
         //System.out.println("строка в формате json"+jsonStr);
 
         if (jsonStr.isEmpty()) {
-            jsonStr = "[{\"attr1\":\"attr111111 пусто\"}]";
+            jsonStr = "[{\"result\":\"пусто\"}]";
         }
         // Записываем ответ
         // Строку формата JSON передаем объекту resp
@@ -126,26 +143,6 @@ public class ServletCatalog extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //String par1 = req.getParameter("par1");
-        //resp.setContentType("text/html");
-        //PrintWriter printWriter = resp.getWriter();
-        //printWriter.write("from catalog");
-        //printWriter.close();
-        //new testJSON().netod1();
-
-        //String paramSidePage = req.getParameter("sidePage");
-        //String paramItemId = req.getParameter("itemId");
-        //String paramItemCount = req.getParameter("itemCount");
-        //int iparamItemId = 0;
-        //if ((paramItemId != null) && (!paramItemId.equals(""))) {
-        //    try {
-        //        iparamItemId = Integer.parseInt(paramItemId);
-        //    } catch (NumberFormatException nfe) {
-        //        nfe.printStackTrace();
-        //    }
-        //}
-        //
-
 
         System.out.println("начало doPost Item");
 
@@ -155,7 +152,6 @@ public class ServletCatalog extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         ServletRequestContext requestContext;
         requestContext = new ServletRequestContext(req);
-        //                                                          ServletRequestContext​​(req);
         List<FileItem> listFiles;
 
 
@@ -219,10 +215,6 @@ public class ServletCatalog extends HttpServlet {
         } catch (Exception ignored) {
         }
 
-        //System.out.println("doPost Item До повтора listFiles.size=" + listFiles.size());
-        //listFiles = upload.parseRequest(requestContext);
-        //System.out.println("doPost Item Повтор listFiles.size=" + listFiles.size());
-
 
         System.out.println("doPost Item item.toString=" + item.toString());
 
@@ -238,5 +230,41 @@ public class ServletCatalog extends HttpServlet {
         resp.sendRedirect("index.html");
 
     }
+
+    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json; charset=utf-8");
+        // 1. Сначала получаем imageId в запросе
+        String parametrItemId=req.getParameter("id");
+        if(parametrItemId==null||parametrItemId.equals("")){
+            resp.getWriter().write("{\"result\": \" Индекса эемента нету. \"}");
+            System.out.println(" Индекса элемента нету.");
+            return;
+        }
+        int itemId=0;
+        try {
+            itemId = Integer.parseInt(parametrItemId);
+        }catch (NumberFormatException ex){
+            resp.getWriter().write("{\"result\": \" Формат индекса изображения ошибочный. \"}");
+            System.out.println(" Формат индекса изображения ошибочный.");
+            return;
+        }
+        DataCatalogItem item=ItemDAO.select(itemId);
+        if(item==null){
+            resp.getWriter().write("{\"result\": \" С таким индексом элемента нет \"}");
+            System.out.println(" С таким индексом элемента нет");
+            return;
+        }
+        ItemDAO.delete(itemId);
+/*
+        File file = new File(image.getPath());
+        if (file.delete()) {
+            resp.getWriter().write("{\"result\": \" Удаление прошло успешно \"}");
+            System.out.println(" Удаление прошло успешно");
+        }*/
+    }
+
+
+
+
 }
 
